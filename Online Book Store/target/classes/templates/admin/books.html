@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout(~{::content})}">
+<body>
+<div th:fragment="content">
+    <div class="row gap">
+        <h1 style="flex:1">Books</h1>
+        <a class="btn" th:href="@{/admin/books/new}">Add Book</a>
+    </div>
+
+    <table class="table">
+        <thead><tr><th>ID</th><th>Title</th><th>Category</th><th>Price</th><th>Discount</th><th>Stock</th><th>Status</th><th></th></tr></thead>
+        <tbody>
+        <tr th:each="b : ${books}">
+            <td th:text="${b.id}">1</td>
+            <td th:text="${b.title}">Title</td>
+            <td th:text="${b.category}">Category</td>
+            <td th:text="'$' + ${b.price}">$0.00</td>
+            <td th:text="${b.discountPercent} ?: '-'">-</td>
+            <td th:text="${b.stockQuantity}">0</td>
+            <td th:text="${b.availabilityStatus}">AVAILABLE</td>
+            <td class="row gap">
+                <a class="btn" th:href="@{'/admin/books/' + ${b.id} + '/edit'}">Edit</a>
+                <form th:action="@{'/admin/books/' + ${b.id} + '/delete'}" method="post" onsubmit="return confirm('Delete this book?');">
+                    <button class="danger" type="submit">Delete</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

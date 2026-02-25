@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      th:replace="~{layout :: layout(~{::content})}">
+<body>
+
+<div th:fragment="content">
+    <div class="row gap">
+        <div class="card" style="max-width:420px">
+            <img class="cover"
+                 th:src="${book.imageUrl} ?: 'https://via.placeholder.com/420x280?text=Book'"
+                 alt="cover"/>
+        </div>
+
+        <div style="flex:1">
+            <h1 th:text="${book.title}">Title</h1>
+            <div class="muted" th:text="${book.author}">Author</div>
+            <div class="muted small" th:text="${book.category}">Category</div>
+
+            <div class="price" style="margin: 12px 0;">
+                <span th:text="'$' + ${book.finalPrice}">$0.00</span>
+                <span th:if="${book.discountPercent != null}" class="muted small"
+                      th:text="'(was $' + ${book.price} + ', -' + ${book.discountPercent} + '%)'"></span>
+            </div>
+
+            <p th:text="${book.description}">Description</p>
+
+            <div class="row gap">
+                <form th:action="@{'/cart/add/' + ${book.id}}" method="post" sec:authorize="isAuthenticated()">
+                    <input type="number" name="qty" min="1" value="1" style="width:90px"/>
+                    <button type="submit">Add to cart</button>
+                </form>
+
+                <span sec:authorize="!isAuthenticated()" class="muted">
+                    Login required to add to cart.
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

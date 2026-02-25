@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      th:fragment="layout(content)">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title th:text="${title} ?: 'Online Bookstore'">Online Bookstore</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}"/>
+</head>
+<body>
+<header class="topbar">
+    <div class="container row">
+        <a class="brand" th:href="@{/}">Online Bookstore</a>
+
+        <form th:action="@{/}" method="get" class="search">
+            <input type="text" name="q" placeholder="Search by title or author" th:value="${q}"/>
+            <button type="submit">Search</button>
+        </form>
+
+        <nav class="nav">
+            <a th:href="@{/books/deals}">Deals</a>
+            <a th:href="@{/}">All Books</a>
+
+            <a th:href="@{/cart}" sec:authorize="isAuthenticated()">Cart</a>
+            <a th:href="@{/orders}" sec:authorize="isAuthenticated()">Orders</a>
+            <a th:href="@{/admin}" sec:authorize="hasRole('ADMIN')">Admin</a>
+
+            <a th:href="@{/auth/login}" sec:authorize="!isAuthenticated()">Login</a>
+            <a th:href="@{/auth/register}" sec:authorize="!isAuthenticated()">Register</a>
+
+            <form th:action="@{/auth/logout}" method="post" sec:authorize="isAuthenticated()" style="display:inline">
+                <button class="linkbtn" type="submit">Logout</button>
+            </form>
+        </nav>
+    </div>
+</header>
+
+<main class="container" th:replace="${content}">
+    <!-- content injected here -->
+</main>
+
+<footer class="footer">
+    <div class="container muted">© <span th:text="${#dates.format(#dates.createNow(), 'yyyy')}"></span> Online Bookstore</div>
+</footer>
+
+<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script th:src="@{/js/deals-react.js}"></script>
+</body>
+</html>

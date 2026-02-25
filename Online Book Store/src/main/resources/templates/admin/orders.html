@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout(~{::content})}">
+<body>
+<div th:fragment="content">
+<div>
+    <h1>Orders</h1>
+
+    <table class="table">
+        <thead><tr><th>ID</th><th>Status</th><th>Total</th><th>Update Status</th></tr></thead>
+        <tbody>
+        <tr th:each="o : ${orders}">
+            <td th:text="${o.id}">1</td>
+            <td><span class="badge" th:text="${o.status}">PENDING</span></td>
+            <td th:text="'$' + ${o.totalAmount}">$0.00</td>
+            <td>
+                <form th:action="@{'/admin/orders/' + ${o.id} + '/status'}" method="post" class="row gap">
+                    <select name="status">
+                        <option th:each="s : ${statuses}" th:value="${s}" th:text="${s}" th:selected="${o.status}==${s}"></option>
+                    </select>
+                    <button type="submit">Update</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <p class="muted small">
+        Note: Stock is deducted when you set status to <strong>CONFIRMED</strong>.
+        If stock is insufficient, confirmation will be rejected.
+    </p>
+</div>
+</body>
+</html>

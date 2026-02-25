@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout(~{::content})}">
+<body>
+
+<div th:fragment="content">
+    <h1>Admin Dashboard</h1>
+
+    <div class="grid3">
+        <div class="stat">
+            <div class="muted small">Total Orders</div>
+            <div class="big" th:text="${summary.totalOrders}">0</div>
+        </div>
+        <div class="stat">
+            <div class="muted small">Confirmed/Active</div>
+            <div class="big" th:text="${summary.confirmedOrders}">0</div>
+        </div>
+        <div class="stat">
+            <div class="muted small">Revenue</div>
+            <div class="big" th:text="'$' + ${summary.totalRevenue}">$0.00</div>
+        </div>
+    </div>
+
+    <div class="row gap" style="margin-top:14px">
+        <a class="btn" th:href="@{/admin/books}">Manage Books</a>
+        <a class="btn" th:href="@{/admin/orders}">Manage Orders</a>
+        <a class="btn" th:href="@{/admin/users}">View Users</a>
+    </div>
+
+    <h2 style="margin-top:18px">Recent Orders</h2>
+
+    <table class="table" th:if="${!#lists.isEmpty(orders)}">
+        <thead>
+        <tr><th>ID</th><th>Status</th><th>Total</th></tr>
+        </thead>
+        <tbody>
+        <tr th:each="o : ${orders}">
+            <td th:text="${o.id}">1</td>
+            <td th:text="${o.status}">PENDING</td>
+            <td th:text="'$' + ${o.totalAmount}">$0.00</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div th:if="${#lists.isEmpty(orders)}" class="muted">No orders yet.</div>
+</div>
+
+</body>
+</html>

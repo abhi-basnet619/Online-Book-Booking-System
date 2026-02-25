@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout(~{::content})}">
+<body>
+
+<div th:fragment="content">
+<div>
+    <h1>Your Cart</h1>
+
+    <div th:if="${#lists.isEmpty(cart.items)}" class="muted">Your cart is empty.</div>
+
+    <table th:if="${!#lists.isEmpty(cart.items)}" class="table">
+        <thead>
+        <tr>
+            <th>Book</th>
+            <th>Qty</th>
+            <th>Unit</th>
+            <th>Total</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="i : ${cart.items}">
+            <td>
+                <div class="row gap">
+                    <img class="thumb" th:src="${i.imageUrl} ?: 'https://via.placeholder.com/64x64?text=Book'" alt=""/>
+                    <div>
+                        <div th:text="${i.title}">Title</div>
+                        <div class="muted small" th:text="${i.author}">Author</div>
+                    </div>
+                </div>
+            </td>
+            <td>
+                <form th:action="@{'/cart/update/' + ${i.bookId}}" method="post" class="row gap">
+                    <input type="number" name="quantity" min="1" th:value="${i.quantity}" style="width:90px"/>
+                    <button type="submit">Update</button>
+                </form>
+            </td>
+            <td th:text="'$' + ${i.unitPrice}">$0.00</td>
+            <td th:text="'$' + ${i.lineTotal}">$0.00</td>
+            <td>
+                <form th:action="@{'/cart/remove/' + ${i.bookId}}" method="post">
+                    <button type="submit" class="danger">Remove</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="totals" th:if="${!#lists.isEmpty(cart.items)}">
+        <div class="row"><span>Subtotal</span><strong th:text="'$' + ${cart.subtotal}">$0.00</strong></div>
+        <div class="row"><span>Delivery charge</span><strong th:text="'$' + ${cart.deliveryCharge}">$0.00</strong></div>
+        <div class="row"><span>Total</span><strong th:text="'$' + ${cart.total}">$0.00</strong></div>
+
+        <form th:action="@{/orders/place}" method="post">
+            <button type="submit">Place Order</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

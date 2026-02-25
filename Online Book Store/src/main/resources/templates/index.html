@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      th:replace="~{layout :: layout(~{::content})}">
+<body>
+
+<div th:fragment="content">
+    <h1>Browse Books</h1>
+
+    <div class="filters row">
+        <div>
+            <form th:action="@{/}" method="get" class="row gap">
+                <select name="category">
+                    <option value="">All Categories</option>
+                    <option th:each="c : ${categories}"
+                            th:value="${c}"
+                            th:selected="${selectedCategory} == ${c}"
+                            th:text="${c}">CATEGORY</option>
+                </select>
+                <button type="submit">Filter</button>
+                <a class="btn" th:href="@{/}">Reset</a>
+            </form>
+        </div>
+        <div class="muted small">
+            Guest can browse books and deals. Login required to add to cart and place orders.
+        </div>
+    </div>
+
+    <div id="deals-react-root"></div>
+
+    <div class="grid">
+        <div class="card" th:each="b : ${books}">
+            <img class="cover" th:src="${b.imageUrl} ?: 'https://via.placeholder.com/260x180?text=Book'" alt="cover"/>
+            <div class="card-body">
+                <div class="title" th:text="${b.title}">Title</div>
+                <div class="muted" th:text="${b.author}">Author</div>
+
+                <div class="price">
+                    <span th:if="${b.discountPercent != null}" class="badge">Deal</span>
+                    <span th:text="'$' + ${b.finalPrice}">$0.00</span>
+                    <span th:if="${b.discountPercent != null}" class="muted small"
+                          th:text="'(was $' + ${b.price} + ', -' + ${b.discountPercent} + '%)'"></span>
+                </div>
+
+                <div class="row gap">
+                    <a class="btn" th:href="@{'/books/' + ${b.id}}">Details</a>
+
+                    <form th:action="@{'/cart/add/' + ${b.id}}" method="post" sec:authorize="isAuthenticated()">
+                        <input type="hidden" name="qty" value="1"/>
+                        <button type="submit">Add to cart</button>
+                    </form>
+
+                    <span sec:authorize="!isAuthenticated()" class="muted small">Login to buy</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

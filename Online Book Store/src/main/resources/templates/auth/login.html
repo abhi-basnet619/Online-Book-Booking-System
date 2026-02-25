@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout(~{::content})}">
+<body>
+
+<div th:fragment="content" class="auth-card">
+    <h1>Login</h1>
+
+    <div th:if="${param.registered}" class="success">
+        Registration successful. Please login.
+    </div>
+
+    <form th:action="@{/auth/login}" method="post" th:object="${loginRequest}">
+        <label>Email</label>
+        <input type="email" th:field="*{email}" required/>
+
+        <label>Password</label>
+        <input type="password" th:field="*{password}" required/>
+
+        <button type="submit">Login</button>
+    </form>
+
+    <p class="muted small">
+        No account? <a th:href="@{/auth/register}">Register</a>
+    </p>
+</div>
+
+</body>
+</html>
