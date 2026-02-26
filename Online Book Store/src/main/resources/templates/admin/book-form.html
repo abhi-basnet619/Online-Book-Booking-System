@@ -8,7 +8,7 @@
     <h1 th:text="${bookId} != null ? 'Edit Book' : 'Add Book'">Book</h1>
 
     <form th:action="${bookId} != null ? @{'/admin/books/' + ${bookId}} : @{/admin/books}"
-          method="post" th:object="${book}">
+          method="post" enctype="multipart/form-data" th:object="${book}">
 
         <div class="grid2">
             <div>
@@ -55,7 +55,16 @@
         </div>
 
         <label>Image URL</label>
-        <input type="text" th:field="*{imageUrl}"/>
+        <input type="text" th:field="*{imageUrl}" placeholder="https://... (optional if uploading below)"/>
+
+        <label>Upload Image</label>
+        <input type="file" name="imageFile" accept="image/*" onchange="previewImage(event)"/>
+        <div style="margin-top:10px" th:if="*{imageUrl != null and !imageUrl.isEmpty()}">
+            <img th:src="*{imageUrl}" id="book-image-preview" alt="Book cover preview" class="thumb" style="width:84px;height:84px;"/>
+        </div>
+        <div style="margin-top:10px" th:if="*{imageUrl == null or imageUrl.isEmpty()}">
+            <img id="book-image-preview" alt="Book cover preview" class="thumb" style="width:84px;height:84px;display:none;"/>
+        </div>
 
         <div class="row gap" style="margin-top:14px">
             <button type="submit">Save</button>
@@ -63,5 +72,16 @@
         </div>
     </form>
 </div>
+    <script>
+        function previewImage(event) {
+            const file = event.target.files && event.target.files[0];
+            if (!file) return;
+            const image = document.getElementById('book-image-preview');
+            image.src = URL.createObjectURL(file);
+            image.style.display = 'block';
+        }
+    </script>
+
+
 </body>
 </html>

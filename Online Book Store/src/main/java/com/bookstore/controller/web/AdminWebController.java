@@ -6,11 +6,13 @@ import com.bookstore.dto.order.UpdateOrderStatusRequest;
 import com.bookstore.repository.UserRepository;
 import com.bookstore.service.AdminService;
 import com.bookstore.service.BookService;
+import com.bookstore.service.ImageStorageService;
 import com.bookstore.service.OrderService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -22,6 +24,7 @@ public class AdminWebController {
     private final OrderService orderService;
     private final UserRepository userRepository;
     private final AdminService adminService;
+    private final ImageStorageService imageStorageService;
 
     @GetMapping
     public String dashboard(Model model) {
@@ -45,7 +48,12 @@ public class AdminWebController {
     }
 
     @PostMapping("/books")
-    public String create(@Valid @ModelAttribute("book") BookUpsertRequest req) {
+    public String create(@Valid @ModelAttribute("book") BookUpsertRequest req,
+                         @RequestParam(value = "imageFile", required = false) MultipartFile imageFile) {
+        String imageUrl = imageStorageService.storeBookImage(imageFile);
+        if (imageUrl != null) {
+            req.setImageUrl(imageUrl);
+        }
         bookService.create(req);
         return "redirect:/admin/books";
     }
@@ -72,7 +80,13 @@ public class AdminWebController {
     }
 
     @PostMapping("/books/{id}")
-    public String update(@PathVariable Long id, @Valid @ModelAttribute("book") BookUpsertRequest req) {
+    public String update(@PathVariable Long id,
+                         @Valid @ModelAttribute("book") BookUpsertRequest req,
+                         @RequestParam(value = "imageFile", required = false) MultipartFile imageFile) {
+        String imageUrl = imageStorageService.storeBookImage(imageFile);
+        if (imageUrl != null) {
+            req.setImageUrl(imageUrl);
+        }
         bookService.update(id, req);
         return "redirect:/admin/books";
     }
