@@ -36,8 +36,8 @@
                     <button type="submit">Update</button>
                 </form>
             </td>
-            <td th:text="'$' + ${i.unitPrice}">$0.00</td>
-            <td th:text="'$' + ${i.lineTotal}">$0.00</td>
+            <td th:text="'NPR ' + ${i.unitPrice}">NPR 0.00</td>
+            <td th:text="'NPR ' + ${i.lineTotal}">NPR 0.00</td>
             <td>
                 <form th:action="@{'/cart/remove/' + ${i.bookId}}" method="post">
                     <button type="submit" class="danger">Remove</button>
@@ -48,9 +48,9 @@
     </table>
 
     <div class="totals" th:if="${!#lists.isEmpty(cart.items)}">
-        <div class="row"><span>Subtotal</span><strong th:text="'$' + ${cart.subtotal}">$0.00</strong></div>
-        <div class="row"><span>Delivery charge</span><strong th:text="'$' + ${cart.deliveryCharge}">$0.00</strong></div>
-        <div class="row"><span>Total</span><strong th:text="'$' + ${cart.total}">$0.00</strong></div>
+        <div class="row"><span>Subtotal</span><strong th:text="'NPR ' + ${cart.subtotal}">NPR 0.00</strong></div>
+        <div class="row"><span>Delivery charge</span><strong th:text="'NPR ' + ${cart.deliveryCharge}">NPR 0.00</strong></div>
+        <div class="row"><span>Total</span><strong th:text="'NPR ' + ${cart.total}">NPR 0.00</strong></div>
 
         <form th:action="@{/orders/place}" method="post">
             <button type="submit">Place Order</button>

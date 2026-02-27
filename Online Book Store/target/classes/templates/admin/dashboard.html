@@ -17,7 +17,7 @@
         </div>
         <div class="stat">
             <div class="muted small">Revenue</div>
-            <div class="big" th:text="'$' + ${summary.totalRevenue}">$0.00</div>
+            <div class="big" th:text="'NPR ' + ${summary.totalRevenue}">NPR 0.00</div>
         </div>
     </div>
 
@@ -37,7 +37,7 @@
         <tr th:each="o : ${orders}">
             <td th:text="${o.id}">1</td>
             <td th:text="${o.status}">PENDING</td>
-            <td th:text="'$' + ${o.totalAmount}">$0.00</td>
+            <td th:text="'NPR ' + ${o.totalAmount}">NPR 0.00</td>
         </tr>
         </tbody>
     </table>

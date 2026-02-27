@@ -18,9 +18,9 @@
             <div class="muted small" th:text="${book.category}">Category</div>
 
             <div class="price" style="margin: 12px 0;">
-                <span th:text="'$' + ${book.finalPrice}">$0.00</span>
+                <span th:text="'NPR ' + ${book.finalPrice}">NPR 0.00</span>
                 <span th:if="${book.discountPercent != null}" class="muted small"
-                      th:text="'(was $' + ${book.price} + ', -' + ${book.discountPercent} + '%)'"></span>
+                      th:text="'(was NPR ' + ${book.price} + ', -' + ${book.discountPercent} + '%)'"></span>
             </div>
 
             <p th:text="${book.description}">Description</p>

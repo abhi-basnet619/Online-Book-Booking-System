@@ -60,6 +60,11 @@ mvn spring-boot:run
 - **Stock is deducted when Admin sets status to CONFIRMED**
 - If stock is insufficient at confirmation time, confirmation fails
 
+## Admin Image Uploads
+- Uploaded book covers are saved under `uploads/books`.
+- Static mapping is configured in `src/main/java/com/bookstore/config/WebConfig.java` (`/uploads/**`).
+- Public access to uploaded images is allowed in `src/main/java/com/bookstore/security/SecurityConfig.java`.
+
 ## Security Notes
 - Set `app.security.jwt.secret` to a strong secret (>= 64 chars, ideally Base64)
 - Set cookie `secure=true` behind HTTPS

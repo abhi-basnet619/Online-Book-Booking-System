@@ -12,7 +12,7 @@
         <tr th:each="o : ${orders}">
             <td th:text="${o.id}">1</td>
             <td><span class="badge" th:text="${o.status}">PENDING</span></td>
-            <td th:text="'$' + ${o.totalAmount}">$0.00</td>
+            <td th:text="'NPR ' + ${o.totalAmount}">NPR 0.00</td>
             <td>
                 <form th:action="@{'/admin/orders/' + ${o.id} + '/status'}" method="post" class="row gap">
                     <select name="status">

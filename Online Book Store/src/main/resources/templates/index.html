@@ -37,9 +37,9 @@
 
                 <div class="price">
                     <span th:if="${b.discountPercent != null}" class="badge">Deal</span>
-                    <span th:text="'$' + ${b.finalPrice}">$0.00</span>
+                    <span th:text="'NPR ' + ${b.finalPrice}">NPR 0.00</span>
                     <span th:if="${b.discountPercent != null}" class="muted small"
-                          th:text="'(was $' + ${b.price} + ', -' + ${b.discountPercent} + '%)'"></span>
+                          th:text="'(was NPR ' + ${b.price} + ', -' + ${b.discountPercent} + '%)'"></span>
                 </div>
 
                 <div class="row gap">

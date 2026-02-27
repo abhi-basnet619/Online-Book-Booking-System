@@ -20,16 +20,16 @@
         <tr th:each="i : ${order.items}">
             <td th:text="${i.title}">Book</td>
             <td th:text="${i.quantity}">1</td>
-            <td th:text="'$' + ${i.unitPrice}">$0.00</td>
-            <td th:text="'$' + ${i.lineTotal}">$0.00</td>
+            <td th:text="'NPR ' + ${i.unitPrice}">NPR 0.00</td>
+            <td th:text="'NPR ' + ${i.lineTotal}">NPR 0.00</td>
         </tr>
         </tbody>
     </table>
 
     <div class="totals">
-        <div class="row"><span>Subtotal</span><strong th:text="'$' + ${order.itemsSubtotal}">$0.00</strong></div>
-        <div class="row"><span>Delivery charge</span><strong th:text="'$' + ${order.deliveryCharge}">$0.00</strong></div>
-        <div class="row"><span>Total</span><strong th:text="'$' + ${order.totalAmount}">$0.00</strong></div>
+        <div class="row"><span>Subtotal</span><strong th:text="'NPR ' + ${order.itemsSubtotal}">NPR 0.00</strong></div>
+        <div class="row"><span>Delivery charge</span><strong th:text="'NPR ' + ${order.deliveryCharge}">NPR 0.00</strong></div>
+        <div class="row"><span>Total</span><strong th:text="'NPR ' + ${order.totalAmount}">NPR 0.00</strong></div>
     </div>
 </div>
 </body>
